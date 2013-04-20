@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0B22DDC7-47F3-4A0E-9622-D15973735AB2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VpnConnections</RootNamespace>
+    <AssemblyName>VpnConnections</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>pnidui_3048.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connection.cs" />
+    <Compile Include="ConnectionManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProgramInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Route.cs" />
+    <Compile Include="SingleInstance.cs" />
+    <Compile Include="TrayApplicationContext.cs" />
+    <Compile Include="WinApi.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3032.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3035.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3044.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3048.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3051.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3054.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3066.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3067.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3071.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3072.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3073.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3074.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3075.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3076.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3077.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3078.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3079.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3081.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3082.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3083.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3084.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3085.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3086.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3087.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3088.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3089.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3091.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3092.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3093.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3094.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3095.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_3096.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_40405.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_40406.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pnidui_40407.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Connections.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="pnidui_3048.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
