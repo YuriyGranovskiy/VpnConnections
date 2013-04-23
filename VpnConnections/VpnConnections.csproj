@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>pnidui_3048.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\pnidui_3048.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -79,116 +79,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\pnidui_3032.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3035.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3044.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3048.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3051.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3054.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3066.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3067.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3071.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3072.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3073.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3074.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3075.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3076.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3077.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3078.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3079.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3081.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3082.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3083.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3084.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3085.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3086.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3087.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3088.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3089.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3091.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3092.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3093.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3094.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3095.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_3096.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_40405.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_40406.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pnidui_40407.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Connections.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="pnidui_3048.ico" />
+    <Content Include="Resources\pnidui_3048.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

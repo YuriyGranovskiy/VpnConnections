@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Connections>
+  <Connection>
+    <Name>Connection1</Name>
+    <UserName>User1</UserName>
+    <Password>Pass1</Password>
+    <Domain>Doamin</Domain>
+    <Routes>
+      <Route>
+        <NetAddress>192.168.1.0</NetAddress>
+        <Mask>255.255.255.0</Mask>
+      </Route>
+      <Route>
+        <NetAddress>192.168.3.0</NetAddress>
+        <Mask>255.255.255.0</Mask>
+      </Route>
+    </Routes>
+  </Connection>
+  <Connection>
+    <Name>Connection2</Name>
+    <UserName>User2</UserName>
+    <Password>Pass2</Password>
+    <Domain>Doamin</Domain>
+    <Routes>
+      <Route>
+        <NetAddress>10.1.0.0</NetAddress>
+        <Mask>255.255.0.0</Mask>
+      </Route>
+      <Route>
+        <NetAddress>10.3.0.0</NetAddress>
+        <Mask>255.255.0.0</Mask>
+      </Route>
+    </Routes>
+  </Connection>
+</Connections>
+  
