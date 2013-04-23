@@ -49,15 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connection.cs" />
-    <Compile Include="ConnectionManager.cs" />
+    <Compile Include="Connections\Connection.cs" />
+    <Compile Include="Processing\ConnectionManager.cs" />
+    <Compile Include="Processing\ConnectionSettingResolver.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProgramInfo.cs" />
+    <Compile Include="Infrastructure\ProgramInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Route.cs" />
-    <Compile Include="SingleInstance.cs" />
-    <Compile Include="TrayApplicationContext.cs" />
-    <Compile Include="WinApi.cs" />
+    <Compile Include="Connections\Route.cs" />
+    <Compile Include="Infrastructure\SingleInstance.cs" />
+    <Compile Include="Infrastructure\TrayApplicationContext.cs" />
+    <Compile Include="Infrastructure\WinApi.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
