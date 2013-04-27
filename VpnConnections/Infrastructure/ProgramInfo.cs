@@ -14,6 +14,7 @@ namespace VpnConnections.Infrastructure
                 {
                     return String.Empty;
                 }
+
                 return ((System.Runtime.InteropServices.GuidAttribute)attributes[0]).Value;
             }
         }

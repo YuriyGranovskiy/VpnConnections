@@ -41,6 +41,7 @@
       <HintPath>..\packages\NLog.2.0.1.2\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,6 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\Connection.cs" />
+    <Compile Include="Resources\MenuItems.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MenuItems.resx</DependentUpon>
+    </Compile>
     <Compile Include="Processing\ConnectionManager.cs" />
     <Compile Include="Processing\ConnectionSettingResolver.cs" />
     <Compile Include="Program.cs" />
@@ -62,6 +68,11 @@
     <Compile Include="Infrastructure\SingleInstance.cs" />
     <Compile Include="Infrastructure\TrayApplicationContext.cs" />
     <Compile Include="Infrastructure\WinApi.cs" />
+    <EmbeddedResource Include="Resources\MenuItems.en-US.resx" />
+    <EmbeddedResource Include="Resources\MenuItems.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MenuItems.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -75,6 +86,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="App.config" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

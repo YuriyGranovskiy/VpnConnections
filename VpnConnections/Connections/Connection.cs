@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace VpnConnections.Connections
 {
     /// <summary>
     /// Connection
     /// </summary>
+    [Serializable]
     public class Connection
     {
         public string Name { get; set; }

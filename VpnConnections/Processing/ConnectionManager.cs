@@ -91,6 +91,11 @@ namespace VpnConnections.Processing
 
         public static bool CheckConnection(Connection connection)
         {
+            if (connection == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var connectedNetIf = NetworkInterface.GetAllNetworkInterfaces().SingleOrDefault(n => n.Name == connection.Name);
             return connectedNetIf != null;
         }

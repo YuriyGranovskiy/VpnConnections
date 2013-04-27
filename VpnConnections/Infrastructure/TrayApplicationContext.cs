@@ -1,49 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
-
+using NLog;
 using VpnConnections.Connections;
 using VpnConnections.Processing;
+using VpnConnections.Resources;
 
 namespace VpnConnections.Infrastructure
 {
     public class TrayApplicationContext : ApplicationContext
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private NotifyIcon _notifyIcon;
         private IEnumerable<Connection> _connections;
+        private const string DefaultCultureKey = "DefaultCulture";
 
         public TrayApplicationContext()
         {
-            this.InitializeContext();
+            InitializeContext();
         }
 
         public void InitializeContext()
         {
-            this._connections = ConnectionManager.GetConnections();
+            SetResourcesCulture();
+
+            _connections = ConnectionManager.GetConnections();
             var icon = new Icon(Properties.Resources.pnidui_3048, 33, 33);
-            this._notifyIcon = new NotifyIcon
+            _notifyIcon = new NotifyIcon
                               {
                                   Icon = icon,
                                   Visible = true
                               };
-            List<MenuItem> menuItems = this._connections.Select(this.GetMenuItemForConnection).ToList();
-            var exitMenuItem = new MenuItem("Exit");
-            exitMenuItem.Name = "Exit";
-            exitMenuItem.Click += this.exitMenuItem_Click;
+            List<MenuItem> menuItems = _connections.Select(GetMenuItemForConnection).ToList();
+            var exitMenuItem = new MenuItem(MenuItems.Exit) {Name = "Exit"};
+            exitMenuItem.Click += (o, args) => ExitThread();
             menuItems.Add(exitMenuItem);
-            this._notifyIcon.ContextMenu = new ContextMenu(menuItems.ToArray());
+            _notifyIcon.ContextMenu = new ContextMenu(menuItems.ToArray());
         }
 
-        void exitMenuItem_Click(object sender, EventArgs e)
+        private static void SetResourcesCulture()
         {
-            this.ExitThread();
+            if (ConfigurationManager.AppSettings.AllKeys.Contains(DefaultCultureKey))
+            {
+                var culture = new CultureInfo(ConfigurationManager.AppSettings[DefaultCultureKey]);
+                MenuItems.Culture = culture;
+            }
         }
 
         protected override void ExitThreadCore()
         {
-            this._notifyIcon.Visible = false; // should remove lingering tray icon!
+            _notifyIcon.Visible = false; // should remove lingering tray icon!
 
             base.ExitThreadCore(); 
         }
@@ -56,14 +68,12 @@ namespace VpnConnections.Infrastructure
                                    Text = connection.Name
                                };
 
-            menuItem.Popup += this.menuItem_Popup;
-            var connectMenuItem = new MenuItem("Подключить");
-            connectMenuItem.Name = "Connect";
-            connectMenuItem.Click += this.connectMenuItem_Click;
-            
-            var disconnectMenuItem = new MenuItem("Отключить");
-            disconnectMenuItem.Name = "Disconnect";
-            disconnectMenuItem.Click += this.disconnectMenuItem_Click;
+            menuItem.Popup += menuItem_Popup;
+            var connectMenuItem = new MenuItem(MenuItems.Connect) {Name = "Connect"};
+            connectMenuItem.Click += connectMenuItem_Click;
+
+            var disconnectMenuItem = new MenuItem(MenuItems.Disconnect) {Name = "Disconnect"};
+            disconnectMenuItem.Click += disconnectMenuItem_Click;
             menuItem.MenuItems.Add(connectMenuItem);
             menuItem.MenuItems.Add(disconnectMenuItem);
             return menuItem;
@@ -72,7 +82,7 @@ namespace VpnConnections.Infrastructure
         void menuItem_Popup(object sender, EventArgs e)
         {
             var menuItem = (MenuItem)sender;
-            var connection = this._connections.FirstOrDefault(c => c.Name == menuItem.Name);
+            var connection = _connections.FirstOrDefault(c => c.Name == menuItem.Name);
             bool isConnected = false;
             try
             {
@@ -81,6 +91,7 @@ namespace VpnConnections.Infrastructure
             }
             catch (Exception ex)
             {
+                Logger.ErrorException(string.Format("Error was handled while chacking connection '{0}'", menuItem.Name), ex);
             }
 
             var connectItem = menuItem.MenuItems.Find("Connect", false).SingleOrDefault();
@@ -98,20 +109,20 @@ namespace VpnConnections.Infrastructure
 
         void disconnectMenuItem_Click(object sender, EventArgs e)
         {
-            var connection = this.GetConnection((MenuItem)sender);
+            var connection = GetConnection((MenuItem)sender);
             ConnectionManager.DisConnect(connection);
         }
 
         void connectMenuItem_Click(object sender, EventArgs e)
         {
-            var connection = this.GetConnection((MenuItem) sender);
+            var connection = GetConnection((MenuItem) sender);
             ConnectionManager.Connect(connection);
         }
 
         private Connection GetConnection(MenuItem menuItem)
         {
             var connectionName = menuItem.Parent.Name;
-            var connection = this._connections.FirstOrDefault(c => c.Name == connectionName);
+            var connection = _connections.FirstOrDefault(c => c.Name == connectionName);
             return connection;
         }
     }
