@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Xml.Linq;
-
+using NLog;
 using VpnConnections.Connections;
 
 namespace VpnConnections.Processing
@@ -14,6 +14,8 @@ namespace VpnConnections.Processing
     /// </summary>
     public class ConnectionManager
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private static readonly ConnectionSettingResolver SettingResolver = new ConnectionSettingResolver();
         
         public static IEnumerable<Connection> GetConnections()
@@ -30,14 +32,16 @@ namespace VpnConnections.Processing
                 var arguments = string.Format("{0} /DISCONNECT", connection.Name);
 
                 ExecuteProcessSync("rasdial.exe", arguments);
+                Logger.Info(string.Format("Connection '{0}' disconnected successfully", connection.Name));
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.ErrorException(string.Format("Connection '{0}' failed to disconnect successfully", connection.Name), ex);
                 return false;
             }
         }
-       public static bool Connect(Connection connection)
+        public static bool Connect(Connection connection)
         {
             try
             {
@@ -50,7 +54,7 @@ namespace VpnConnections.Processing
                 }
 
                 var netif = NetworkInterface.GetAllNetworkInterfaces().SingleOrDefault(n => n.Name == connection.Name);
-                if(netif != null)
+                if (netif != null)
                 {
                     IPInterfaceProperties properties = netif.GetIPProperties();
 
@@ -66,10 +70,13 @@ namespace VpnConnections.Processing
                     ExecuteProcessSync("net.exe", "start dnscache");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.ErrorException(string.Format("Connection '{0}' failed to connect", connection.Name), ex);
                 return false;
             }
+
+            Logger.Info(string.Format("Connection '{0}' connected successfully", connection.Name));
 
             return true;
         }
