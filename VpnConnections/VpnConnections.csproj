@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\Connection.cs" />
+    <Compile Include="Processing\IConnector.cs" />
     <Compile Include="Processing\IUiBuilder.cs" />
     <Compile Include="Processing\MenuBuilder.cs" />
     <Compile Include="Resources\MenuItems.Designer.cs">
@@ -61,7 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MenuItems.resx</DependentUpon>
     </Compile>
-    <Compile Include="Processing\ConnectionManager.cs" />
+    <Compile Include="Processing\Connector.cs" />
     <Compile Include="Processing\ConnectionSettingResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Infrastructure\ProgramInfo.cs" />

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using NLog;
 using VpnConnections.Connections;
@@ -14,6 +16,7 @@ namespace VpnConnections.Processing
         private const string ConnectItemName = "Connect";
         private const string DisconnectItemName = "Disconnect";
         private const string ExitItemName = "Exit";
+        private const string CodepageKeyName = "Codepage";
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -21,11 +24,30 @@ namespace VpnConnections.Processing
         
         private IEnumerable<Connection> _connections;
 
-        public event EventHandler Exit;
+        private readonly IConnector _connector;
         
+        public event EventHandler Exit;
+
+        public MenuBuilder()
+        {
+            Encoding encoding = null;
+            if (ConfigurationManager.AppSettings.AllKeys.Contains(CodepageKeyName))
+            {
+                var codepageValue = ConfigurationManager.AppSettings[CodepageKeyName];
+                int codepage;
+                int.TryParse(codepageValue, out codepage);
+                if (codepage > 0)
+                {
+                    encoding = Encoding.GetEncoding(codepage);
+                }
+            }
+
+            _connector = new Connector {OutputEncoding = encoding};
+        }
+
         public void Build()
         {
-            _connections = ConnectionManager.GetConnections();
+            _connections = _connector.GetConnections();
             var icon = new Icon(Properties.Resources.pnidui_3048, 33, 33);
             _notifyIcon = new NotifyIcon
             {
@@ -82,7 +104,7 @@ namespace VpnConnections.Processing
             bool isConnected = false;
             try
             {
-                isConnected = ConnectionManager.CheckConnection(connection);
+                isConnected = _connector.CheckConnection(connection);
 
             }
             catch (Exception ex)
@@ -113,7 +135,7 @@ namespace VpnConnections.Processing
                 return;
             }
 
-            var connectResult = ConnectionManager.Connect(connection);
+            var connectResult = _connector.Connect(connection);
             if (connectResult)
             {
                 _notifyIcon.ShowBalloonTip(5000, Messages.Connection, string.Format(Messages.SuccesfulConnection, connection.Name), ToolTipIcon.Info);
@@ -134,7 +156,7 @@ namespace VpnConnections.Processing
                 return;
             }
 
-            var disconnestResult = ConnectionManager.Disconnect(connection);
+            var disconnestResult = _connector.Disconnect(connection);
             if (disconnestResult)
             {
                 _notifyIcon.ShowBalloonTip(5000, Messages.Disconnection, string.Format(Messages.SuccesfulDisconnection, connection.Name), ToolTipIcon.Info);

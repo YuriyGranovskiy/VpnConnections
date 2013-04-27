@@ -4,7 +4,7 @@
     <Name>Connection1</Name>
     <UserName>User1</UserName>
     <Password>Pass1</Password>
-    <Domain>Doamin</Domain>
+    <Domain>Domain</Domain>
     <Routes>
       <Route>
         <NetAddress>192.168.1.0</NetAddress>

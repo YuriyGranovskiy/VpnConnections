@@ -9,7 +9,7 @@ namespace VpnConnections.Processing
 
     public class ConnectionSettingResolver
     {
-        public IEnumerable<Connection>  GetConnections(XDocument settingsDocument)
+        public IEnumerable<Connection> GetConnections(XDocument settingsDocument)
         {
             var xmlConnections = settingsDocument.Descendants("Connection").Where(c => c.Element("Name") != null);
             var connections = new List<Connection>();

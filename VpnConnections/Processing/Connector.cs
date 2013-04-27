@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Xml.Linq;
 using NLog;
 using VpnConnections.Connections;
@@ -12,20 +13,22 @@ namespace VpnConnections.Processing
     /// <summary>
     /// ConnectionManager
     /// </summary>
-    public class ConnectionManager
+    public class Connector : IConnector
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static readonly ConnectionSettingResolver SettingResolver = new ConnectionSettingResolver();
+
+        public Encoding OutputEncoding { get; set; }
         
-        public static IEnumerable<Connection> GetConnections()
+        public IEnumerable<Connection> GetConnections()
         {
             var connDocument = XDocument.Load("Connections.xml");
             var connections = SettingResolver.GetConnections(connDocument);
             return connections;
         }
     
-        public static bool Disconnect(Connection connection)
+        public bool Disconnect(Connection connection)
         {
             try
             {
@@ -41,16 +44,23 @@ namespace VpnConnections.Processing
                 return false;
             }
         }
-        public static bool Connect(Connection connection)
+
+        public bool Connect(Connection connection)
         {
             try
             {
                 if (!CheckConnection(connection))
                 {
-                    var arguments = string.Format("{0} {1} {2} /DOMAIN:{3}", connection.Name, connection.UserName,
-                                                  connection.Password, connection.Domain);
+                    var arguments = new StringBuilder();
+                    arguments.AppendFormat("{0} {1} {2}", connection.Name, connection.UserName,
+                                                  connection.Password);
 
-                    ExecuteProcessSync("rasdial.exe", arguments);
+                    if (!string.IsNullOrWhiteSpace(connection.Domain))
+                    {
+                        arguments.AppendFormat(" /DOMAIN:{0}", connection.Domain);
+                    }
+                     
+                    ExecuteProcessSync("rasdial.exe", arguments.ToString());
                 }
 
                 var netif = NetworkInterface.GetAllNetworkInterfaces().SingleOrDefault(n => n.Name == connection.Name);
@@ -86,15 +96,7 @@ namespace VpnConnections.Processing
             return true;
         }
 
-        private static void ExecuteProcessSync(string command, string arguments)
-        {
-            var processStartInfo = new ProcessStartInfo(command, arguments)
-                                       {CreateNoWindow = true, UseShellExecute = false};
-            var process = Process.Start(processStartInfo);
-            process.WaitForExit();
-        }
-
-        public static bool CheckConnection(Connection connection)
+        public bool CheckConnection(Connection connection)
         {
             if (connection == null)
             {
@@ -103,6 +105,46 @@ namespace VpnConnections.Processing
 
             var connectedNetIf = NetworkInterface.GetAllNetworkInterfaces().SingleOrDefault(n => n.Name == connection.Name);
             return connectedNetIf != null;
+        }
+
+        private void ExecuteProcessSync(string command, string arguments)
+        {
+            var processStartInfo = new ProcessStartInfo(command, arguments)
+                                       {
+                                           CreateNoWindow = true, 
+                                           UseShellExecute = false, 
+                                           RedirectStandardError = true,
+                                           RedirectStandardOutput = true
+                                       };
+
+            if (OutputEncoding != null)
+            {
+                processStartInfo.StandardOutputEncoding = OutputEncoding;
+            }
+            
+
+            var process = Process.Start(processStartInfo);
+
+            process.ErrorDataReceived += (sender, errorLine) =>
+                                             {
+                                                 if (errorLine.Data != null)
+                                                 {
+                                                     Logger.Error(errorLine.Data);
+                                                 }
+                                             };
+
+            process.OutputDataReceived += (sender, outputLine) =>
+            {
+                if (outputLine.Data != null)
+                {
+                    Logger.Debug(outputLine.Data);
+                }
+            };
+
+            process.BeginErrorReadLine();
+            process.BeginOutputReadLine();
+
+            process.WaitForExit();
         }
     }
 }
