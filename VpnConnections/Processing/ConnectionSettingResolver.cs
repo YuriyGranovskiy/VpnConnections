@@ -15,11 +15,14 @@ namespace VpnConnections.Processing
             var connections = new List<Connection>();
             foreach (var connectionElement in xmlConnections)
             {
-                var connection = new Connection();
-                connection.Name = connectionElement.Element("Name").Value;
-                connection.UserName = connectionElement.Element("UserName").Value;
-                connection.Password = connectionElement.Element("Password").Value;
-                connection.Domain = connectionElement.Element("Domain").Value;
+                var connection = new Connection
+                                     {
+                                         Name = GetSafeElementValue(connectionElement, "Name"),
+                                         UserName = GetSafeElementValue(connectionElement, "UserName"),
+                                         Password = GetSafeElementValue(connectionElement, "Password"),
+                                         Domain = GetSafeElementValue(connectionElement, "Domain")
+                                     };
+
                 var xmlRoutes = connectionElement.Element("Routes");
                 if (xmlRoutes != null)
                 {
@@ -27,8 +30,8 @@ namespace VpnConnections.Processing
                         xmlRoutes.Elements("Route").Select(
                             e => new Route
                             {
-                                NetAddress = e.Element("NetAddress") != null ? e.Element("NetAddress").Value : string.Empty,
-                                Mask = e.Element("Mask") != null ? e.Element("Mask").Value : string.Empty
+                                NetAddress = GetSafeElementValue(e, "NetAddress"),
+                                Mask = GetSafeElementValue(e, "Mask")
                             });
                 }
 
@@ -36,6 +39,12 @@ namespace VpnConnections.Processing
             }
 
             return connections;
+        }
+
+        private static string GetSafeElementValue(XContainer element, string elementName)
+        {
+            var namedElement = element.Element(elementName);
+            return namedElement != null ? namedElement.Value : string.Empty;
         }
     }
 }
