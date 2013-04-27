@@ -11,6 +11,10 @@ namespace VpnConnections.Processing
 {
     public class MenuBuilder : IUiBuilder
     {
+        private const string ConnectItemName = "Connect";
+        private const string DisconnectItemName = "Disconnect";
+        private const string ExitItemName = "Exit";
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private NotifyIcon _notifyIcon;
@@ -30,7 +34,7 @@ namespace VpnConnections.Processing
             };
 
             List<MenuItem> menuItems = _connections.Select(GetMenuItemForConnection).ToList();
-            var exitMenuItem = new MenuItem(MenuItems.Exit) { Name = "Exit" };
+            var exitMenuItem = new MenuItem(MenuItems.Exit) { Name = ExitItemName };
             exitMenuItem.Click += (o, args) => ExitThread();
             menuItems.Add(exitMenuItem);
             _notifyIcon.ContextMenu = new ContextMenu(menuItems.ToArray());
@@ -53,10 +57,10 @@ namespace VpnConnections.Processing
             };
 
             menuItem.Popup += menuItemPopup;
-            var connectMenuItem = new MenuItem(MenuItems.Connect) { Name = "Connect" };
+            var connectMenuItem = new MenuItem(MenuItems.Connect) { Name = ConnectItemName };
             connectMenuItem.Click += connectMenuItemClick;
 
-            var disconnectMenuItem = new MenuItem(MenuItems.Disconnect) { Name = "Disconnect" };
+            var disconnectMenuItem = new MenuItem(MenuItems.Disconnect) { Name = DisconnectItemName };
             disconnectMenuItem.Click += disconnectMenuItemClick;
             menuItem.MenuItems.Add(connectMenuItem);
             menuItem.MenuItems.Add(disconnectMenuItem);
@@ -86,29 +90,59 @@ namespace VpnConnections.Processing
                 Logger.ErrorException(string.Format("Error was handled while chacking connection '{0}'", menuItem.Name), ex);
             }
 
-            var connectItem = menuItem.MenuItems.Find("Connect", false).SingleOrDefault();
+            var connectItem = menuItem.MenuItems.Find(ConnectItemName, false).SingleOrDefault();
             if (connectItem != null)
             {
                 connectItem.Enabled = !isConnected;
             }
 
-            var disconnectItem = menuItem.MenuItems.Find("Disconnect", false).SingleOrDefault();
+            var disconnectItem = menuItem.MenuItems.Find(DisconnectItemName, false).SingleOrDefault();
             if (disconnectItem != null)
             {
                 disconnectItem.Enabled = isConnected;
             }
         }
-        
-        private void disconnectMenuItemClick(object sender, EventArgs e)
-        {
-            var connection = GetConnection((MenuItem)sender);
-            ConnectionManager.Disconnect(connection);
-        }
 
         private void connectMenuItemClick(object sender, EventArgs e)
         {
-            var connection = GetConnection((MenuItem)sender);
-            ConnectionManager.Connect(connection);
+            var menuItem = (MenuItem)sender;
+            var connection = GetConnection(menuItem);
+            if (connection == null)
+            {
+                _notifyIcon.ShowBalloonTip(5000, Messages.ConnectionChecking, Messages.ConnectionNotFound, ToolTipIcon.Info);
+                return;
+            }
+
+            var connectResult = ConnectionManager.Connect(connection);
+            if (connectResult)
+            {
+                _notifyIcon.ShowBalloonTip(5000, Messages.Connection, string.Format(Messages.SuccesfulConnection, connection.Name), ToolTipIcon.Info);
+            }
+            else
+            {
+                _notifyIcon.ShowBalloonTip(5000, Messages.Connection, string.Format(Messages.NonSuccesfulConnection, connection.Name), ToolTipIcon.Error);
+            }
+        }
+
+        private void disconnectMenuItemClick(object sender, EventArgs e)
+        {
+            var menuItem = (MenuItem)sender;
+            var connection = GetConnection(menuItem);
+            if (connection == null)
+            {
+                _notifyIcon.ShowBalloonTip(5000, Messages.ConnectionChecking, Messages.ConnectionNotFound, ToolTipIcon.Info);
+                return;
+            }
+
+            var disconnestResult = ConnectionManager.Disconnect(connection);
+            if (disconnestResult)
+            {
+                _notifyIcon.ShowBalloonTip(5000, Messages.Disconnection, string.Format(Messages.SuccesfulDisconnection, connection.Name), ToolTipIcon.Info);
+            }
+            else
+            {
+                _notifyIcon.ShowBalloonTip(5000, Messages.Disconnection, string.Format(Messages.NonSuccesfulDisconnection, connection.Name), ToolTipIcon.Error);
+            }
         }
     }
 }

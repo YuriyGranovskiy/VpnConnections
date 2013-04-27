@@ -70,6 +70,11 @@
     <Compile Include="Infrastructure\SingleInstance.cs" />
     <Compile Include="Infrastructure\TrayApplicationContext.cs" />
     <Compile Include="Infrastructure\WinApi.cs" />
+    <Compile Include="Resources\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Resources\MenuItems.en-US.resx" />
     <EmbeddedResource Include="Resources\MenuItems.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -88,6 +93,11 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\Messages.en-US.resx" />
+    <EmbeddedResource Include="Resources\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="App.config" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>

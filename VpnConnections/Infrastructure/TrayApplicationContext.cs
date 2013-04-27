@@ -35,6 +35,8 @@ namespace VpnConnections.Infrastructure
             {
                 var culture = new CultureInfo(ConfigurationManager.AppSettings[DefaultCultureKey]);
                 MenuItems.Culture = culture;
+                Messages.Culture = culture;
+                Logger.Info(string.Format("Culture set to {0}", culture.Name));
             }
         }
     }
