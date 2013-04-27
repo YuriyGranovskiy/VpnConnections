@@ -25,7 +25,7 @@ namespace VpnConnections.Processing
             return connections;
         }
     
-        public static bool DisConnect(Connection connection)
+        public static bool Disconnect(Connection connection)
         {
             try
             {

@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\Connection.cs" />
+    <Compile Include="Processing\IUiBuilder.cs" />
+    <Compile Include="Processing\MenuBuilder.cs" />
     <Compile Include="Resources\MenuItems.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
