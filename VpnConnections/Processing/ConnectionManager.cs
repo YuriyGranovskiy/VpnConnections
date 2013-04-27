@@ -69,6 +69,11 @@ namespace VpnConnections.Processing
                     ExecuteProcessSync("net.exe", "stop dnscache");
                     ExecuteProcessSync("net.exe", "start dnscache");
                 }
+                else
+                {
+                    Logger.Error(string.Format("Connection '{0}' failed to connect", connection.Name));
+                    return false;
+                }
             }
             catch (Exception ex)
             {
