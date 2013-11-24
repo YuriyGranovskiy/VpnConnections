@@ -48,7 +48,7 @@ namespace VpnConnections.Processing
         public void Build()
         {
             _connections = _connector.GetConnections();
-            var icon = new Icon(Properties.Resources.pnidui_3048, 33, 33);
+            var icon = new Icon(Properties.Resources.pnidui_3048, new Size(16, 16));
             _notifyIcon = new NotifyIcon
             {
                 Icon = icon,
@@ -78,12 +78,12 @@ namespace VpnConnections.Processing
                 Text = connection.Name
             };
 
-            menuItem.Popup += menuItemPopup;
+            menuItem.Popup += MenuItemPopup;
             var connectMenuItem = new MenuItem(MenuItems.Connect) { Name = ConnectItemName };
-            connectMenuItem.Click += connectMenuItemClick;
+            connectMenuItem.Click += ConnectMenuItemClick;
 
             var disconnectMenuItem = new MenuItem(MenuItems.Disconnect) { Name = DisconnectItemName };
-            disconnectMenuItem.Click += disconnectMenuItemClick;
+            disconnectMenuItem.Click += DisconnectMenuItemClick;
             menuItem.MenuItems.Add(connectMenuItem);
             menuItem.MenuItems.Add(disconnectMenuItem);
             return menuItem;
@@ -97,7 +97,7 @@ namespace VpnConnections.Processing
         }
 
 
-        void menuItemPopup(object sender, EventArgs e)
+        void MenuItemPopup(object sender, EventArgs e)
         {
             var menuItem = (MenuItem)sender;
             var connection = _connections.FirstOrDefault(c => c.Name == menuItem.Name);
@@ -125,7 +125,7 @@ namespace VpnConnections.Processing
             }
         }
 
-        private void connectMenuItemClick(object sender, EventArgs e)
+        private void ConnectMenuItemClick(object sender, EventArgs e)
         {
             var menuItem = (MenuItem)sender;
             var connection = GetConnection(menuItem);
@@ -146,7 +146,7 @@ namespace VpnConnections.Processing
             }
         }
 
-        private void disconnectMenuItemClick(object sender, EventArgs e)
+        private void DisconnectMenuItemClick(object sender, EventArgs e)
         {
             var menuItem = (MenuItem)sender;
             var connection = GetConnection(menuItem);
